@@ -13,13 +13,14 @@
         <h1 class="h1-content">Mentora</h1>
         <h3>An AI based application where you can share your troubles and feelings.</h3>
      
-        <form action="{% url 'chatButton' %}" method="POST">
-            {% csrf_token %}
+        <form action="{% url 'chatButton' %}" method="get" >
+            
             <button type="submit" class="btn">START</button>
         </form>
-        <!--<input class="btn" type="submit" value="Submit">-->
+      
         <br>
         <a style="text-decoration: none; color: ivory;" href="learnmore/" class="a-style">Learn more about Mentora</a>
+       
     </div>
     
 </body>
