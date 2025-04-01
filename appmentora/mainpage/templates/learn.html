@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentora</title>
+    <link rel="stylesheet" href="{% static 'faqCss.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+    
+</head>
+<body>
+  <div class="header">
+    <!-- header -->
+    <h1 class="header-title" >FAQ</h1>
+    <p class="header-desc">frequently Asked Questions</p>
+    
+    <!-- search -->
+    <div class="search">
+      <input type="text" placeholder="Search...">
+      <button>Search</button>
+    </div>
+  </div>  
+
+  <!--Faq Accordion-->
+  <div class="faq">
+    <div class="faq-name">
+      <h1 class="faq-header">Have <br> questions ?</h1>
+      <img class="faq-img" src="{% static 'question.png' %}">
+    </div>
+    <div class="faq-box">
+      <div class="faq-wrapper">
+        <input type="checkbox" class="faq-trigger" id="faq-trigger-1">
+        <label for="faq-trigger-1" class="faq-title">How it works ?</label>
+        <div class="faq-detail">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab iure similique corrupti commodi blanditiis, veritatis incidunt temporibus laboriosam necessitatibus! Expedita recusandae maxime dolores mollitia commodi numquam, hic repellendus eveniet ipsum.
+          </p>
+        </div>
+      </div>
+      <div class="faq-wrapper">
+        <input type="checkbox" class="faq-trigger" id="faq-trigger-2">
+        <label for="faq-trigger-2" class="faq-title">How it works ?</label>
+        <div class="faq-detail">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab iure similique corrupti commodi blanditiis, veritatis incidunt temporibus laboriosam necessitatibus! Expedita recusandae maxime dolores mollitia commodi numquam, hic repellendus eveniet ipsum.
+          </p>
+        </div>
+      </div>
+      <div class="faq-wrapper">
+        <input type="checkbox" class="faq-trigger" id="faq-trigger-3">
+        <label for="faq-trigger-3" class="faq-title">How it works ?</label>
+        <div class="faq-detail">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab iure similique corrupti commodi blanditiis, veritatis incidunt temporibus laboriosam necessitatibus! Expedita recusandae maxime dolores mollitia commodi numquam, hic repellendus eveniet ipsum.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

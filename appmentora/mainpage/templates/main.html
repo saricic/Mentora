@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentora</title>
+    <link rel="stylesheet" href="{% static 'mystatic.css' %}">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="content">
+        <h1 class="h1-content">Mentora</h1>
+        <h3>An AI based application where you can share your troubles and feelings.</h3>
+     
+        <form action="{% url 'chatButton' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn">START</button>
+        </form>
+        <!--<input class="btn" type="submit" value="Submit">-->
+        <br>
+        <a style="text-decoration: none; color: ivory;" href="learnmore/" class="a-style">Learn more about Mentora</a>
+    </div>
+    
+</body>
+</html>
