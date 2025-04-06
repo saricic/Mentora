@@ -1,4 +1,5 @@
 {% load static %}
+<!-- filepath: c:\Users\Hawei\Desktop\mentora\appmentora\mainpage\templates\chat.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,14 +9,19 @@
     <link rel="stylesheet" href="{% static 'chatroom.css' %}">
 </head>
 <body>
-    <div class="chat-container">
-        <h1>Welcome to the Chat Room</h1>
-        <div id="chat-display" class="chat-display">
+    <div class="background"></div>
+    <div class="chat-room">
+        <!-- Main chat area -->
+        <div class="chat-container">
+            <h1>Welcome to the Chat Room</h1>
+            <div id="chat-display" class="chat-display">
+                <!-- Chat messages will appear here -->
+            </div>
+            <form id="chat-form" class="chat-form">
+                <input type="text" id="user-input" class="chat-input" placeholder="Type your message..." required>
+                <button type="submit" class="chat-submit">Send</button>
+            </form>
         </div>
-        <form id="chat-form" class="chat-form">
-            <input type="text" id="user-input" class="chat-input" placeholder="Type your message..." required>
-            <button type="submit" class="chat-submit">Send</button>
-        </form>
     </div>
 
     <script>
@@ -23,46 +29,23 @@
         const chatDisplay = document.getElementById('chat-display');
         const userInput = document.getElementById('user-input');
 
-        
-        const apiKey = 'YOUR_API_KEY'; // Replace 'YOUR_API_KEY' with your actual API key
-        const apiUrl = 'https://api.example.com/chat'; // Replace with your chatbot API endpoint
-
-        chatForm.addEventListener('submit', async function(event) {
+        chatForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const userMessage = userInput.value;
-
             if (userMessage.trim() !== '') {
+                // Display user message
                 const userMessageElement = document.createElement('div');
                 userMessageElement.className = 'user-message';
                 userMessageElement.textContent = userMessage;
                 chatDisplay.appendChild(userMessageElement);
 
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${apiKey}`
-                        },
-                        body: JSON.stringify({ message: userMessage })
-                    });
+                // Simulate chatbot response
+                const botMessageElement = document.createElement('div');
+                botMessageElement.className = 'bot-message';
+                botMessageElement.textContent = 'This is a simulated response.';
+                chatDisplay.appendChild(botMessageElement);
 
-                    const data = await response.json();
-                    const botMessage = data.response || 'Sorry, I could not process your request.';
-
-                    const botMessageElement = document.createElement('div');
-                    botMessageElement.className = 'bot-message';
-                    botMessageElement.textContent = botMessage;
-                    chatDisplay.appendChild(botMessageElement);
-                } catch (error) {
-                    console.error('Error communicating with the API:', error);
-                    const errorMessageElement = document.createElement('div');
-                    errorMessageElement.className = 'bot-message';
-                    errorMessageElement.textContent = 'An error occurred. Please try again later.';
-                    chatDisplay.appendChild(errorMessageElement);
-                }
-
-                // Clear input field and scroll to the bottom
+                // Clear input field
                 userInput.value = '';
                 chatDisplay.scrollTop = chatDisplay.scrollHeight;
             }

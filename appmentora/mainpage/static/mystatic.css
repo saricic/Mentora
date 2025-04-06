@@ -8,12 +8,76 @@ html {
 
 }
 
-.h1-content {}
+
 
 h1 {
     font-size: 100px;
     margin: 5px;
 }
+
+.Login {
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+
+
+.usern {
+    position: static !important;
+    color: rgb(125, 125, 125);
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 10px black;
+
+
+}
+
+
+.logot {
+    position: static;
+    top: 40px !important;
+    right: 60px !important;
+    background-color: rgb(125, 125, 125) !important;
+    height: 40px !important;
+    width: 70px !important;
+    border: 2px solid rgb(151, 167, 156) !important;
+    border-radius: 10px !important;
+
+}
+
+.logot:hover {
+    background-color: rgb(100, 100, 100) !important;
+    opacity: 0.8;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.log {
+    position: static;
+    top: 40px !important;
+    right: 60px !important;
+    background-color: rgb(125, 125, 125) !important;
+    height: 40px !important;
+    width: 70px !important;
+    border: 2px solid rgb(151, 167, 156) !important;
+    border-radius: 10px !important;
+
+}
+
+
+.log:hover {
+    background-color: rgb(100, 100, 100) !important;
+    opacity: 0.6;
+    -webkit-transition: opacity 0.1s ease-in-out;
+    -moz-transition: opacity 0.1s ease-in-out;
+    -ms-transition: opacity 0.1s ease-in-out;
+    -o-transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
+}
+
 
 
 
@@ -24,6 +88,7 @@ h1 {
 
 }
 
+
 .btn {
     background-color: rgb(23, 175, 69);
     height: 60px;
@@ -32,6 +97,16 @@ h1 {
     margin-top: 80px;
     margin-bottom: 20px;
     border-radius: 50px;
+}
+
+.btn:hover {
+    background-color: rgb(18, 108, 45);
+    opacity: 0.6;
+    -webkit-transition: opacity 0.1s ease-in-out;
+    -moz-transition: opacity 0.1s ease-in-out;
+    -ms-transition: opacity 0.1s ease-in-out;
+    -o-transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
 }
 
 .background {
