@@ -20,6 +20,11 @@
         <form action="{% url 'loginbutton' %}" method="get">
             <button type="submit" class="log">Log In</button>
         </form>
+        <form action="{% url 'register' %}" method="get">
+            {% csrf_token %}
+            <button type="submit" class="signup">Sign Up</button>
+        </form>
+        
         {% endif %}
     </div>
     <div class="content">

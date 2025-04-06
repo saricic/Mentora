@@ -36,6 +36,24 @@ h1 {
 
 }
 
+.signup {
+    background-color: rgb(125, 125, 125) !important;
+    border: 2px solid rgb(151, 167, 156) !important;
+    border-radius: 10px !important;
+    height: 40px !important;
+    width: 70px !important;
+}
+
+.signup:hover {
+    background-color: rgb(100, 100, 100) !important;
+    opacity: 0.6;
+    -webkit-transition: opacity 0.1s ease-in-out;
+    -moz-transition: opacity 0.1s ease-in-out;
+    -ms-transition: opacity 0.1s ease-in-out;
+    -o-transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
+
+}
 
 .logot {
     position: static;
