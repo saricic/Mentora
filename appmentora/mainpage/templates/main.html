@@ -34,8 +34,7 @@
         <h1 class="h1-content">Mentora</h1>
         <h3>An AI based application where you can share your troubles and feelings.</h3>
      
-        <form action="{% url 'chatButton' %}" method="get" >
-            
+        <form action="{% if user.is_authenticated %}{% url 'chatButton' %}{% else %}{% url 'loginbutton' %}{% endif %}" method="get">
             <button type="submit" class="btn">START</button>
         </form>
       

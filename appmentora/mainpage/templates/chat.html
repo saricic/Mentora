@@ -1,5 +1,5 @@
+
 {% load static %}
-<!-- filepath: c:\Users\Hawei\Desktop\mentora\appmentora\mainpage\templates\chat.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +11,21 @@
 <body>
     <div class="background"></div>
     <div class="chat-room">
-        <!-- Main chat area -->
+        
+        <div class="chat-sidebar" id="chat-sidebar">
+            <button id="toggle-sidebar" class="toggle-sidebar-btn">Hide</button>
+            <h2>Conversations</h2>
+        
+            <button id="new-conversation" class="new-conversation-btn">+ New Conversation</button>
+            <ul id="conversation-list" class="conversation-list">
+                <!-- Conversations will be dynamically added here -->
+            </ul>
+        </div>
+
+
         <div class="chat-container">
-            <h1>Welcome to the Chat Room</h1>
             <div id="chat-display" class="chat-display">
-                <!-- Chat messages will appear here -->
+                <!-- Messages will appear here -->
             </div>
             <form id="chat-form" class="chat-form">
                 <input type="text" id="user-input" class="chat-input" placeholder="Type your message..." required>
@@ -23,33 +33,190 @@
             </form>
         </div>
     </div>
-
+    </div>
     <script>
+        // DOM Elements
         const chatForm = document.getElementById('chat-form');
         const chatDisplay = document.getElementById('chat-display');
         const userInput = document.getElementById('user-input');
+        const conversationList = document.getElementById('conversation-list');
+        const newConversationBtn = document.getElementById('new-conversation');
+        const chatSidebar = document.getElementById('chat-sidebar');
+        const chatContainer = document.querySelector('.chat-container');
+        const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+        
+        
 
-        chatForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const userMessage = userInput.value;
-            if (userMessage.trim() !== '') {
-                // Display user message
-                const userMessageElement = document.createElement('div');
-                userMessageElement.className = 'user-message';
-                userMessageElement.textContent = userMessage;
-                chatDisplay.appendChild(userMessageElement);
+        let conversations = {};
+        let activeConversationId = null;
 
-                // Simulate chatbot response
-                const botMessageElement = document.createElement('div');
-                botMessageElement.className = 'bot-message';
-                botMessageElement.textContent = 'This is a simulated response.';
-                chatDisplay.appendChild(botMessageElement);
+    
+        // Add message to chat display
+        function addMessage(role, content) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `${role}-message`;
+            messageElement.textContent = content;
+            chatDisplay.appendChild(messageElement);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
 
-                // Clear input field
-                userInput.value = '';
+
+        }
+
+
+        function loadConversation(conversationId) {
+            chatDisplay.innerHTML = ''; // Clear the chat display
+            const messages = conversations[conversationId] || [];
+            messages.forEach(({ role, content }) => addMessage(role, content));
+            activeConversationId = conversationId;
+        }
+        
+        // Add a new conversation
+        function addConversation() {
+            const conversationId = `conversation-${Date.now()}`;
+            conversations[conversationId] = [];
+ 
+            const conversationItem = document.createElement('li');
+            conversationItem.textContent = 'New Conversation'; // Placeholder name
+            conversationItem.dataset.id = conversationId;
+            conversationItem.addEventListener('click', () => loadConversation(conversationId));
+            conversationList.appendChild(conversationItem);
+
+            // Store the conversation item for later updates
+            conversations[conversationId].conversationItem = conversationItem;
+
+            // Load the new conversation
+            loadConversation(conversationId);
+            
+        }
+    
+        // Get CSRF token for Django
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        // Get bot response from Django endpoint
+        async function getBotResponse(userMessage) {
+            try {
+                // Show loading indicator
+                const loadingElement = document.createElement('div');
+                loadingElement.className = 'bot-message';
+                loadingElement.textContent = '...';
+                loadingElement.id = 'loading-indicator';
+                chatDisplay.appendChild(loadingElement);
                 chatDisplay.scrollTop = chatDisplay.scrollHeight;
+                
+                // Call Django endpoint
+                const response = await fetch('/api/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                    body: JSON.stringify({
+                        message: userMessage
+                    })
+                });
+    
+                // Remove loading indicator
+                document.getElementById('loading-indicator').remove();
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('API Error:', errorData);
+                    throw new Error(errorData.error || 'Request failed');
+                }
+                
+                const data = await response.json();
+                return data.response;
+                
+            } catch (error) {
+                console.error('Chat Error:', error);
+                return `Sorry, I encountered an error: ${error.message}`;
+            }
+        }
+
+        toggleSidebarBtn.addEventListener('click', () => {
+            if (chatSidebar.classList.contains('hidden')) {
+                // Show the sidebar
+                chatSidebar.classList.remove('hidden');
+                chatContainer.classList.remove('expanded');
+                toggleSidebarBtn.textContent = 'Hide';
+                toggleSidebarBtn.style.left = '150px'; // Adjust position when sidebar is visible
+            } else {
+                // Hide the sidebar
+                chatSidebar.classList.add('hidden');
+                chatContainer.classList.add('expanded');
+                toggleSidebarBtn.textContent = 'Show';
+                toggleSidebarBtn.style.left = '10px'; // Adjust position when sidebar is hidden
             }
         });
+    
+        // Form submission handler
+        chatForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const userMessage = userInput.value.trim();
+        
+            if (userMessage !== '' && activeConversationId) {
+                // Display user message
+                addMessage('user', userMessage);
+                conversations[activeConversationId].push({ role: 'user', content: userMessage });
+        
+                // Update the conversation name if it's the first message
+                const conversationItem = conversations[activeConversationId].conversationItem;
+                if (conversationItem.textContent === 'New Conversation') {
+                    conversationItem.textContent = userMessage; // Set the first message as the name
+                }
+        
+                // Clear the input field
+                userInput.value = '';
+        
+                // Get and display bot response
+                const botResponse = await getBotResponse(userMessage);
+                addMessage('bot', botResponse);
+                conversations[activeConversationId].push({ role: 'bot', content: botResponse });
+
+                await saveConversations();
+            }
+        });
+        // Allow sending with Enter key
+        userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        newConversationBtn.addEventListener('click', addConversation);
+
+        
+
+        async function saveConversations() {
+            await fetch('/api/save-conversations/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify(conversations),
+            });
+        }
+
+
+        addConversation();
+
+    
+        
     </script>
 </body>
 </html>

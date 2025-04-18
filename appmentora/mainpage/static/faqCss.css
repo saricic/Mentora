@@ -13,11 +13,38 @@
     font-family: 'Poppins', sans-serif;
 }
 
+
+
 body {
     width: 100%;
     height: auto;
     padding: 3%;
     background-color: var(--softColor);
+}
+
+.mai {
+    position: relative;
+    top: -15px;
+    left: 20px;
+    background-color: rgb(125, 125, 125) !important;
+    border: 2px solid rgb(151, 167, 156) !important;
+    border-radius: 10px !important;
+    height: 40px !important;
+    width: 90px !important;
+
+
+
+}
+
+.mai:hover {
+    background-color: rgb(100, 100, 100) !important;
+    opacity: 0.6;
+    -webkit-transition: opacity 0.1s ease-in-out;
+    -moz-transition: opacity 0.1s ease-in-out;
+    -ms-transition: opacity 0.1s ease-in-out;
+    -o-transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
+
 }
 
 .header {
@@ -150,6 +177,8 @@ body {
     overflow: hidden;
     transition: 0.3 ease-in-out;
     font-size: 14px;
+    color: white;
+    /* Set the text color to white */
 }
 
 .faq-trigger {
